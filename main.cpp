@@ -1,3 +1,5 @@
+#include <iostream>
+
 
 template <unsigned N>
 struct StaticString
