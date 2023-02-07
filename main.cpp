@@ -10,8 +10,9 @@ struct StaticString
     constexpr StaticString(): data() {}
     constexpr StaticString(std::ranges::input_range auto&& str) : data()
     {
-        for (auto i = 0; i < std::ranges::size(str); ++i)
-            data[i] = str[i];
+        auto i = 0;
+        for (const auto c : str)
+            data[i++] = c;
     }
     constexpr auto& operator[](std::size_t idx) {
         return data[idx];
