@@ -3,7 +3,7 @@
 #include <ranges>
 
 
-template <unsigned N>
+template <unsigned N = sizeof(unsigned long) * 8>
 struct StaticString
 {
     char data[N];
@@ -13,6 +13,24 @@ struct StaticString
         auto i = 0;
         for (const auto c : str)
             data[i++] = c;
+    }
+    constexpr StaticString(unsigned long n) : data()
+    {
+        unsigned long div = 10;
+        const int size = sizeof(decltype(n)) * 8;
+        int i = 0;
+        for (; i < size; ++i)
+        {
+            const unsigned long r = n % div;
+            data[N - 1 - i] = static_cast<char>((r*10/div)+char('0'));
+            n -= r;
+            div *= 10;
+            if (n == 0)
+                break;
+        }
+        auto j = 0;
+        for (; i > - 1; --i)
+            data[j++] = data[N - 1 - i];
     }
     constexpr auto& operator[](std::size_t idx) {
         return data[idx];
@@ -70,8 +88,7 @@ constexpr unsigned long largestPalindrome()
         for (auto j = i; j > curr_min; --j)
         {
             const unsigned long mult = i * j;
-            const auto str = to_const_char<NDigits2*2>(mult);
-            if (isPalindrome<NDigits2*2>(str))
+            if (isPalindrome<NDigits2*2>(StaticString{mult}))
             {
                 result = std::max(result, mult);
                 curr_min = j + 1;
