@@ -71,7 +71,7 @@ template <unsigned long N, unsigned long M>
 constexpr auto pow()
 {
     unsigned long result = 1;
-    for (auto i = 1; i < M; ++i)
+    for (auto i = 0; i < M; ++i)
         result *= N;
     return result;
 }
@@ -80,7 +80,7 @@ constexpr auto pow()
 template <int NDigits2>
 constexpr unsigned long largestPalindrome()
 {
-    constexpr unsigned long min = 1 * ::pow(10, NDigits2 - 1) - 1;
+    constexpr unsigned long min = 1 * ::pow<10, NDigits2 - 1>() - 1;
     constexpr auto max = (min + 1) * 10 - 1;
     unsigned long result = 0;
     auto curr_min = min;
