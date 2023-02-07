@@ -1,4 +1,6 @@
 #include <iostream>
+#include <concepts>
+#include <ranges>
 
 
 template <unsigned N>
